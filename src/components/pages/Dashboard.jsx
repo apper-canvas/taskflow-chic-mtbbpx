@@ -266,7 +266,7 @@ const Dashboard = () => {
                       All caught up! 👏
                     </p>
                   ) : (
-                    overdueTasks.slice(0, 3).map(task => (
+overdueTasks.slice(0, 3).map(task => (
                       <div
                         key={task.Id}
                         className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
@@ -276,13 +276,14 @@ const Dashboard = () => {
                           <p className="text-sm font-medium text-gray-900 truncate">
                             {task.title}
                           </p>
-<div className="flex items-center gap-2 mt-1">
+                          <div className="flex items-center gap-2 mt-1">
                             <Badge priority={task.priority} size="xs" />
                             <span className="text-xs text-red-600">
                               {Math.abs(getDaysUntilDue(task.due_date))} days overdue
                             </span>
                           </div>
                         </div>
+                      </div>
                     ))
                   )}
                   
