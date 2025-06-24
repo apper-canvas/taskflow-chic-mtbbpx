@@ -195,7 +195,7 @@ const Archive = () => {
         </div>
 
         {/* Archive Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -213,7 +213,7 @@ const Archive = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
->
+          >
             <Card variant="elevated" className="p-4 text-center">
               <div className="text-2xl font-bold text-green-600">
                 {tasks.filter(task => task.completed_at && 
@@ -222,12 +222,13 @@ const Archive = () => {
               </div>
               <div className="text-sm text-gray-600">Completed Today</div>
             </Card>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
->
+          >
             <Card variant="elevated" className="p-4 text-center">
               <div className="text-2xl font-bold text-green-600">
                 {tasks.filter(task => task.completed_at && 
@@ -236,6 +237,7 @@ const Archive = () => {
               </div>
               <div className="text-sm text-gray-600">This Week</div>
             </Card>
+          </motion.div>
         </div>
 
         {/* Completed Tasks List */}
