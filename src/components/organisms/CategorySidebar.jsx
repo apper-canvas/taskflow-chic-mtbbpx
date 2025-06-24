@@ -6,14 +6,15 @@ import CategoryPill from '@/components/molecules/CategoryPill'
 import Button from '@/components/atoms/Button'
 import ProgressRing from '@/components/molecules/ProgressRing'
 import ApperIcon from '@/components/ApperIcon'
+import CategoryModal from '@/components/organisms/CategoryModal'
 import categoryService from '@/services/api/categoryService'
 import taskService from '@/services/api/taskService'
-
 const CategorySidebar = () => {
   const [categories, setCategories] = useState([])
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
+  const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -131,10 +132,15 @@ return tasks.filter(task => {
       </div>
 
       {/* Categories */}
-      <div className="flex-1 overflow-y-auto px-6">
+<div className="flex-1 overflow-y-auto px-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-gray-900">Categories</h2>
-          <Button variant="ghost" size="sm" icon="Plus">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            icon="Plus"
+            onClick={() => setShowModal(true)}
+          >
             Add
           </Button>
         </div>
@@ -180,8 +186,15 @@ return tasks.filter(task => {
           >
             Settings
           </Button>
-        </div>
+</div>
       </div>
+
+      {/* Category Modal */}
+      <CategoryModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onCategoryCreated={loadData}
+      />
     </div>
   )
 }
