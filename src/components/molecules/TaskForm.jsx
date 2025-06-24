@@ -111,11 +111,10 @@ const taskData = {
     { value: 'urgent', label: 'Urgent' }
   ]
 
-  const categoryOptions = categories.map(cat => ({
+const categoryOptions = categories.map(cat => ({
     value: cat.Id.toString(),
-    label: cat.name
+    label: cat.Name
   }))
-
   return (
     <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
       <Input
