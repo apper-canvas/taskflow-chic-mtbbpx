@@ -27,12 +27,12 @@ const TaskForm = ({
   useEffect(() => {
     loadCategories()
     if (task) {
-      setFormData({
+setFormData({
         title: task.title || '',
         description: task.description || '',
-        categoryId: task.categoryId?.toString() || '',
+        categoryId: task.category_id?.toString() || '',
         priority: task.priority || 'medium',
-        dueDate: task.dueDate || ''
+        dueDate: task.due_date || ''
       })
     }
   }, [task])
@@ -79,9 +79,12 @@ const TaskForm = ({
     setLoading(true)
     
     try {
-      const taskData = {
-        ...formData,
-        categoryId: parseInt(formData.categoryId, 10)
+const taskData = {
+        title: formData.title,
+        description: formData.description,
+        category_id: parseInt(formData.categoryId, 10),
+        priority: formData.priority,
+        due_date: formData.dueDate
       }
       
       let result

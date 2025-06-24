@@ -36,8 +36,8 @@ const CategoryPill = ({
         />
       </div>
       
-      <div className="flex-1 min-w-0">
-        <span className="font-medium text-sm">{category.name}</span>
+<div className="flex-1 min-w-0">
+        <span className="font-medium text-sm">{category.Name || category.name}</span>
       </div>
       
       {showCount && (
@@ -47,8 +47,8 @@ const CategoryPill = ({
             ? 'bg-white/20 text-white' 
             : 'bg-gray-100 text-gray-600'
           }
-        `}>
-          {category.taskCount || 0}
+`}>
+          {category.task_count || category.taskCount || 0}
         </div>
       )}
     </motion.div>

@@ -47,16 +47,16 @@ const TaskList = ({
         case 'pending':
           filtered = filtered.filter(task => !task.completed)
           break
-        case 'overdue':
+case 'overdue':
           filtered = filtered.filter(task => {
-            if (!task.dueDate || task.completed) return false
-            return new Date(task.dueDate) < new Date()
+            if (!task.due_date || task.completed) return false
+            return new Date(task.due_date) < new Date()
           })
           break
-        case 'due-today':
+case 'due-today':
           filtered = filtered.filter(task => {
-            if (!task.dueDate || task.completed) return false
-            return new Date(task.dueDate).toDateString() === today
+            if (!task.due_date || task.completed) return false
+            return new Date(task.due_date).toDateString() === today
           })
           break
       }
@@ -81,14 +81,14 @@ const TaskList = ({
           aValue = priorityOrder[a.priority]
           bValue = priorityOrder[b.priority]
           break
-        case 'dueDate':
-          aValue = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31')
-          bValue = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31')
+case 'dueDate':
+          aValue = a.due_date ? new Date(a.due_date) : new Date('9999-12-31')
+          bValue = b.due_date ? new Date(b.due_date) : new Date('9999-12-31')
           break
-        case 'createdAt':
+case 'createdAt':
         default:
-          aValue = new Date(a.createdAt)
-          bValue = new Date(b.createdAt)
+          aValue = new Date(a.created_at)
+          bValue = new Date(b.created_at)
           break
       }
 
@@ -100,7 +100,7 @@ const TaskList = ({
     return filtered
   }, [tasks, filters, sortBy, sortOrder])
 
-  const getCategoryById = (categoryId) => {
+const getCategoryById = (categoryId) => {
     return categories.find(cat => cat.Id === categoryId)
   }
 
@@ -200,9 +200,9 @@ const TaskList = ({
               layout: { duration: 0.3 }
             }}
           >
-            <TaskCard
+<TaskCard
               task={task}
-              category={getCategoryById(task.categoryId)}
+              category={getCategoryById(task.category_id)}
               onTaskUpdate={onTaskUpdate}
               onTaskDelete={onTaskDelete}
               onTaskEdit={onTaskEdit}

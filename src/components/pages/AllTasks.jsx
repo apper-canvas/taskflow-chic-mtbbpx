@@ -234,9 +234,9 @@ const AllTasks = () => {
             >
               <Card variant="elevated" className="p-4 text-center">
                 <div className="text-2xl font-bold text-amber-600">
-                  {tasks.filter(task => {
-                    if (!task.dueDate || task.completed) return false
-                    return new Date(task.dueDate) < new Date()
+{tasks.filter(task => {
+                    if (!task.due_date || task.completed) return false
+                    return new Date(task.due_date) < new Date()
                   }).length}
                 </div>
                 <div className="text-sm text-gray-600">Overdue</div>

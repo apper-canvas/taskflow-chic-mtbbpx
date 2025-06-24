@@ -29,10 +29,10 @@ const CategorySidebar = () => {
         taskService.getAll()
       ])
       
-      // Update category task counts
+// Update category task counts
       const categoriesWithCounts = categoriesData.map(category => ({
         ...category,
-        taskCount: tasksData.filter(task => task.categoryId === category.Id && !task.completed).length
+        taskCount: tasksData.filter(task => task.category_id === category.Id && !task.completed).length
       }))
       
       setCategories(categoriesWithCounts)
@@ -57,17 +57,17 @@ const CategorySidebar = () => {
 
   const getTodaysTaskCount = () => {
     const today = new Date().toDateString()
-    return tasks.filter(task => {
-      if (!task.dueDate) return false
-      return new Date(task.dueDate).toDateString() === today && !task.completed
+return tasks.filter(task => {
+      if (!task.due_date) return false
+      return new Date(task.due_date).toDateString() === today && !task.completed
     }).length
   }
 
   const getOverdueTaskCount = () => {
     const today = new Date()
-    return tasks.filter(task => {
-      if (!task.dueDate || task.completed) return false
-      return new Date(task.dueDate) < today
+return tasks.filter(task => {
+      if (!task.due_date || task.completed) return false
+      return new Date(task.due_date) < today
     }).length
   }
 

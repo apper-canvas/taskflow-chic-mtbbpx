@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
-import TaskList from "@/components/organisms/TaskList";
-import TaskModal from "@/components/organisms/TaskModal";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import ProgressRing from "@/components/molecules/ProgressRing";
-import ApperIcon from "@/components/ApperIcon";
-import taskService from "@/services/api/taskService";
-import categoryService from "@/services/api/categoryService";
 import { formatDate, getDaysUntilDue, isOverdue } from "@/utils/helpers";
+import categoryService from "@/services/api/categoryService";
+import taskService from "@/services/api/taskService";
+import ApperIcon from "@/components/ApperIcon";
+import ProgressRing from "@/components/molecules/ProgressRing";
+import TaskModal from "@/components/organisms/TaskModal";
+import TaskList from "@/components/organisms/TaskList";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -73,25 +73,25 @@ const Dashboard = () => {
     }
   }
 
-  // Dashboard statistics
+// Dashboard statistics
   const totalTasks = tasks.length
   const completedTasks = tasks.filter(t => t.completed).length
   const pendingTasks = totalTasks - completedTasks
   const progressPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0
 
   const todaysTasks = tasks.filter(task => {
-    if (!task.dueDate || task.completed) return false
-    return new Date(task.dueDate).toDateString() === new Date().toDateString()
+    if (!task.due_date || task.completed) return false
+    return new Date(task.due_date).toDateString() === new Date().toDateString()
   })
 
   const overdueTasks = tasks.filter(task => {
-    if (!task.dueDate || task.completed) return false
-    return new Date(task.dueDate) < new Date()
+    if (!task.due_date || task.completed) return false
+    return new Date(task.due_date) < new Date()
   })
 
   const upcomingTasks = tasks.filter(task => {
-    if (!task.dueDate || task.completed) return false
-    const daysUntil = getDaysUntilDue(task.dueDate)
+    if (!task.due_date || task.completed) return false
+    const daysUntil = getDaysUntilDue(task.due_date)
     return daysUntil > 0 && daysUntil <= 7
   })
 
@@ -276,14 +276,13 @@ const Dashboard = () => {
                           <p className="text-sm font-medium text-gray-900 truncate">
                             {task.title}
                           </p>
-                          <div className="flex items-center gap-2 mt-1">
+<div className="flex items-center gap-2 mt-1">
                             <Badge priority={task.priority} size="xs" />
                             <span className="text-xs text-red-600">
-                              {Math.abs(getDaysUntilDue(task.dueDate))} days overdue
+                              {Math.abs(getDaysUntilDue(task.due_date))} days overdue
                             </span>
                           </div>
                         </div>
-                      </div>
                     ))
                   )}
                   
@@ -330,9 +329,9 @@ const Dashboard = () => {
                             {task.title}
                           </p>
                           <div className="flex items-center gap-2 mt-1">
-                            <Badge priority={task.priority} size="xs" />
+<Badge priority={task.priority} size="xs" />
                             <span className="text-xs text-gray-600">
-                              {formatDate(task.dueDate)}
+                              {formatDate(task.due_date)}
                             </span>
                           </div>
                         </div>

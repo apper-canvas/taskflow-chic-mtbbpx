@@ -53,9 +53,9 @@ const QuickAddBar = ({ onTaskAdded }) => {
     setLoading(true)
 
     try {
-      const taskData = {
+const taskData = {
         title: title.trim(),
-        categoryId: parseInt(categoryId, 10),
+        category_id: parseInt(categoryId, 10),
         priority
       }
 
@@ -97,9 +97,9 @@ const QuickAddBar = ({ onTaskAdded }) => {
     { value: 'urgent', label: 'Urgent' }
   ]
 
-  const categoryOptions = categories.map(cat => ({
+const categoryOptions = categories.map(cat => ({
     value: cat.Id.toString(),
-    label: cat.name
+    label: cat.Name || cat.name
   }))
 
   return (

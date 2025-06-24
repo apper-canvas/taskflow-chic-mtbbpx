@@ -1,17 +1,45 @@
 import { Outlet, useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import CategorySidebar from '@/components/organisms/CategorySidebar'
 import QuickAddBar from '@/components/organisms/QuickAddBar'
 import FilterToolbar from '@/components/organisms/FilterToolbar'
+import Button from '@/components/atoms/Button'
+import { AuthContext } from './App'
 
 const Layout = () => {
   const location = useLocation()
+  const { logout } = useContext(AuthContext)
+  const { user } = useSelector((state) => state.user)
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-white">
-      {/* Quick Add Bar */}
-      <div className="flex-shrink-0 bg-white border-b border-gray-200 z-40">
-        <QuickAddBar />
+      {/* Header with Logout */}
+      <div className="flex-shrink-0 bg-white border-b border-gray-200 z-50">
+        <div className="flex items-center justify-between px-6 py-2">
+          <div className="flex-1">
+            <QuickAddBar />
+          </div>
+          <div className="flex items-center gap-4 ml-4">
+            {user && (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-600">
+                  Welcome, {user.firstName || user.name || 'User'}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon="LogOut"
+                  onClick={logout}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Logout
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Filter Toolbar */}

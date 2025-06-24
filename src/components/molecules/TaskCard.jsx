@@ -55,8 +55,8 @@ const TaskCard = ({
     }
   }
 
-  const overdue = isOverdue(task.dueDate)
-  const daysUntilDue = getDaysUntilDue(task.dueDate)
+const overdue = isOverdue(task.due_date)
+  const daysUntilDue = getDaysUntilDue(task.due_date)
 
   return (
     <motion.div
@@ -121,20 +121,19 @@ const TaskCard = ({
                 )}
 
                 {/* Badges Row */}
-                <div className="flex flex-wrap items-center gap-2">
+<div className="flex flex-wrap items-center gap-2">
                   {showCategory && category && (
                     <Badge
-                      text={category.name}
+                      text={category.Name || category.name}
                       color={category.color}
                       size="xs"
                     />
                   )}
                   
                   <Badge priority={task.priority} size="xs" />
-                  
-                  {task.dueDate && (
+{task.due_date && (
                     <Badge
-                      text={formatDate(task.dueDate)}
+                      text={formatDate(task.due_date)}
                       variant={overdue ? 'error' : daysUntilDue <= 1 ? 'warning' : 'default'}
                       size="xs"
                     />

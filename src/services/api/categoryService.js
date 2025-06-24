@@ -1,72 +1,238 @@
-import categoriesData from '../mockData/categories.json'
-import { delay } from '@/utils/helpers'
-
-let categories = [...categoriesData]
+import { toast } from 'react-toastify'
 
 const categoryService = {
   async getAll() {
-    await delay(200)
-    return [...categories]
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+      
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "color" } },
+          { field: { Name: "icon" } },
+          { field: { Name: "task_count" } }
+        ],
+        orderBy: [
+          {
+            fieldName: "Name",
+            sorttype: "ASC"
+          }
+        ]
+      }
+      
+      const response = await apperClient.fetchRecords('category', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+      
+      return response.data || []
+    } catch (error) {
+      console.error("Error fetching categories:", error)
+      toast.error("Failed to load categories")
+      return []
+    }
   },
 
   async getById(id) {
-    await delay(150)
-    const category = categories.find(c => c.Id === parseInt(id, 10))
-    if (!category) {
-      throw new Error('Category not found')
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+      
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "color" } },
+          { field: { Name: "icon" } },
+          { field: { Name: "task_count" } }
+        ]
+      }
+      
+      const response = await apperClient.getRecordById('category', parseInt(id, 10), params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+      
+      return response.data
+    } catch (error) {
+      console.error(`Error fetching category with ID ${id}:`, error)
+      toast.error("Failed to load category")
+      return null
     }
-    return { ...category }
   },
 
   async create(categoryData) {
-    await delay(250)
-    const maxId = categories.length > 0 ? Math.max(...categories.map(c => c.Id)) : 0
-    const newCategory = {
-      Id: maxId + 1,
-      name: categoryData.name,
-      color: categoryData.color || '#5B21B6',
-      icon: categoryData.icon || 'Folder',
-      taskCount: 0
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+      
+      const params = {
+        records: [
+          {
+            Name: categoryData.Name || categoryData.name,
+            Tags: categoryData.Tags || '',
+            color: categoryData.color || '#5B21B6',
+            icon: categoryData.icon || 'Folder',
+            task_count: 0
+          }
+        ]
+      }
+      
+      const response = await apperClient.createRecord('category', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+      
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success)
+        const failedRecords = response.results.filter(result => !result.success)
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`)
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`)
+            })
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulRecords.length > 0 ? successfulRecords[0].data : null
+      }
+      
+      return null
+    } catch (error) {
+      console.error("Error creating category:", error)
+      toast.error("Failed to create category")
+      return null
     }
-    categories.push(newCategory)
-    return { ...newCategory }
   },
 
   async update(id, updateData) {
-    await delay(200)
-    const index = categories.findIndex(c => c.Id === parseInt(id, 10))
-    if (index === -1) {
-      throw new Error('Category not found')
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+      
+      const params = {
+        records: [
+          {
+            Id: parseInt(id, 10),
+            ...(updateData.Name && { Name: updateData.Name }),
+            ...(updateData.name && { Name: updateData.name }),
+            ...(updateData.Tags && { Tags: updateData.Tags }),
+            ...(updateData.color && { color: updateData.color }),
+            ...(updateData.icon && { icon: updateData.icon }),
+            ...(updateData.task_count !== undefined && { task_count: updateData.task_count }),
+            ...(updateData.taskCount !== undefined && { task_count: updateData.taskCount })
+          }
+        ]
+      }
+      
+      const response = await apperClient.updateRecord('category', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+      
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success)
+        const failedUpdates = response.results.filter(result => !result.success)
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`)
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`)
+            })
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulUpdates.length > 0 ? successfulUpdates[0].data : null
+      }
+      
+      return null
+    } catch (error) {
+      console.error("Error updating category:", error)
+      toast.error("Failed to update category")
+      return null
     }
-    
-    const updatedCategory = {
-      ...categories[index],
-      ...updateData,
-      Id: categories[index].Id // Prevent Id modification
-    }
-    
-    categories[index] = updatedCategory
-    return { ...updatedCategory }
   },
 
   async delete(id) {
-    await delay(200)
-    const index = categories.findIndex(c => c.Id === parseInt(id, 10))
-    if (index === -1) {
-      throw new Error('Category not found')
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+      
+      const params = {
+        RecordIds: [parseInt(id, 10)]
+      }
+      
+      const response = await apperClient.deleteRecord('category', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return false
+      }
+      
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success)
+        const failedDeletions = response.results.filter(result => !result.success)
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} records:${JSON.stringify(failedDeletions)}`)
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulDeletions.length > 0
+      }
+      
+      return false
+    } catch (error) {
+      console.error("Error deleting category:", error)
+      toast.error("Failed to delete category")
+      return false
     }
-    const deletedCategory = categories.splice(index, 1)[0]
-    return { ...deletedCategory }
   },
 
   async updateTaskCount(categoryId, count) {
-    await delay(100)
-    const index = categories.findIndex(c => c.Id === parseInt(categoryId, 10))
-    if (index !== -1) {
-      categories[index].taskCount = count
-      return { ...categories[index] }
-    }
-    throw new Error('Category not found')
+    return this.update(categoryId, { task_count: count })
   }
 }
 

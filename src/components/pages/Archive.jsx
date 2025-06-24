@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-import { motion } from 'framer-motion'
-import TaskList from '@/components/organisms/TaskList'
-import Button from '@/components/atoms/Button'
-import Card from '@/components/atoms/Card'
-import ApperIcon from '@/components/ApperIcon'
-import EmptyState from '@/components/molecules/EmptyState'
-import taskService from '@/services/api/taskService'
-import categoryService from '@/services/api/categoryService'
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import categoryService from "@/services/api/categoryService";
+import taskService from "@/services/api/taskService";
+import ApperIcon from "@/components/ApperIcon";
+import EmptyState from "@/components/molecules/EmptyState";
+import TaskList from "@/components/organisms/TaskList";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
 
 const Archive = () => {
   const [tasks, setTasks] = useState([])
@@ -213,31 +213,29 @@ const Archive = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-          >
+>
             <Card variant="elevated" className="p-4 text-center">
-              <div className="text-2xl font-bold text-taskflow-purple">
-                {tasks.filter(task => task.completedAt && 
-                  new Date(task.completedAt).toDateString() === new Date().toDateString()
+              <div className="text-2xl font-bold text-green-600">
+                {tasks.filter(task => task.completed_at && 
+                  new Date(task.completed_at).toDateString() === new Date().toDateString()
                 ).length}
               </div>
               <div className="text-sm text-gray-600">Completed Today</div>
             </Card>
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-          >
+>
             <Card variant="elevated" className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {tasks.filter(task => task.completedAt && 
-                  new Date(task.completedAt) >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+              <div className="text-2xl font-bold text-green-600">
+                {tasks.filter(task => task.completed_at && 
+                  new Date(task.completed_at) >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
                 ).length}
               </div>
               <div className="text-sm text-gray-600">This Week</div>
             </Card>
-          </motion.div>
         </div>
 
         {/* Completed Tasks List */}
