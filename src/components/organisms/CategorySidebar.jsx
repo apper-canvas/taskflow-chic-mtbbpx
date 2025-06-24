@@ -131,17 +131,18 @@ return tasks.filter(task => {
         </motion.div>
       </div>
 
-      {/* Categories */}
+{/* Categories */}
 <div className="flex-1 overflow-y-auto px-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-gray-900">Categories</h2>
           <Button 
-            variant="ghost" 
+            variant="primary" 
             size="sm" 
             icon="Plus"
             onClick={() => setShowModal(true)}
+            className="bg-taskflow-purple hover:bg-taskflow-purple-dark text-white shadow-sm"
           >
-            Add
+            Add Category
           </Button>
         </div>
 
