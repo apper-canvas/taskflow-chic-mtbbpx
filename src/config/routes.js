@@ -1,7 +1,8 @@
-import Dashboard from '@/components/pages/Dashboard'
-import AllTasks from '@/components/pages/AllTasks'
-import Archive from '@/components/pages/Archive'
-
+import Settings from "@/components/pages/Settings";
+import React from "react";
+import AllTasks from "@/components/pages/AllTasks";
+import Dashboard from "@/components/pages/Dashboard";
+import Archive from "@/components/pages/Archive";
 export const routes = {
   dashboard: {
     id: 'dashboard',
@@ -17,12 +18,19 @@ export const routes = {
     icon: 'CheckSquare',
     component: AllTasks
   },
-  archive: {
+archive: {
     id: 'archive',
     label: 'Archive',
     path: '/archive',
     icon: 'Archive',
     component: Archive
+  },
+  settings: {
+    id: 'settings',
+    label: 'Settings',
+    path: '/settings',
+    icon: 'Settings',
+    component: Settings
   }
 }
 
