@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "@/components/atoms/Input";
-import ApperIcon from "@/components/atoms/ApperIcon";
+import ApperIcon from "@/components/ApperIcon";
 import { motion } from "framer-motion";
 const SearchBar = ({ 
   placeholder = 'Search tasks...', 
